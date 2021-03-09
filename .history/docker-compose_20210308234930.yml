@@ -26,9 +26,6 @@ services:
     container_name: laravel-webserver
     restart: unless-stopped
     tty: true
-    environment:
-      SERVICE_NAME: app
-      SERVICE_TAGS: dev
     ports:
       - "8080:80"
       - "443:443"
@@ -56,7 +53,6 @@ services:
       - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
     networks:
       - app-network
-  # PhpMyadmin Service
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.0.2
     container_name: laravel-myadmin
@@ -65,8 +61,6 @@ services:
       PMA_HOST: db
       PMA_USER: root
       PMA_PASSWORD: admin1234
-      SERVICE_TAGS: dev
-      SERVICE_NAME: phpmyadmin
     depends_on:
       - db
     ports:

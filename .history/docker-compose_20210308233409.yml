@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: ./docker/Dockerfile
     image: digitalocean.com/php
-    container_name: laravel-app
+    container_name: laravelapp-app
     restart: unless-stopped
     tty: true
     environment:
@@ -23,12 +23,9 @@ services:
   #Nginx Service
   webserver:
     image: nginx:alpine
-    container_name: laravel-webserver
+    container_name: laravelapp-webserver
     restart: unless-stopped
     tty: true
-    environment:
-      SERVICE_NAME: app
-      SERVICE_TAGS: dev
     ports:
       - "8080:80"
       - "443:443"
@@ -40,8 +37,8 @@ services:
 
   #MySQL Service
   db:
-    image: mysql:5.7.22
-    container_name: laravel-db
+    image: mysql:5.7
+    container_name: laravelapp-db
     restart: unless-stopped
     tty: true
     ports:
@@ -56,17 +53,13 @@ services:
       - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
     networks:
       - app-network
-  # PhpMyadmin Service
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.0.2
-    container_name: laravel-myadmin
     restart: always
     environment:
       PMA_HOST: db
       PMA_USER: root
       PMA_PASSWORD: admin1234
-      SERVICE_TAGS: dev
-      SERVICE_NAME: phpmyadmin
     depends_on:
       - db
     ports:
